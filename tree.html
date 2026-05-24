@@ -1,0 +1,86 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Fam.ly — Family Tree</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+<style>
+.tree-container{padding:1rem 1.1rem;text-align:center;overflow-x:auto}
+.tree-gen-label{font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin:1.5rem 0 .75rem}
+.tree-gen{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}
+.tree-connector{width:1px;height:28px;background:linear-gradient(to bottom,var(--br2),transparent);margin:0 auto}
+.tree-h-line{height:1px;background:var(--br2);width:60%;margin:0 auto .5rem}
+.tree-member{display:flex;flex-direction:column;align-items:center;gap:.4rem;cursor:pointer;transition:transform .3s var(--spring)}
+.tree-member:hover{transform:scale(1.1)}
+.tree-av{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:#080608;border:3px solid var(--bg2);box-shadow:0 0 0 1.5px var(--br2),0 4px 16px rgba(0,0,0,.4)}
+.tree-name{font-weight:600;font-size:.78rem;text-align:center}
+.tree-role{font-size:.62rem;color:var(--tx3);text-align:center}
+.heart-sep{font-size:1.1rem;align-self:center;padding-top:.5rem;color:var(--gold)}
+.ring-sep{font-size:1.1rem;align-self:center;padding-top:.5rem}
+</style>
+</head>
+<body>
+<div id="particles"></div>
+<div class="amb"></div>
+<div class="content page-in">
+
+  <div class="topbar">
+    <div class="tb-logo">Fam<em>.</em>ly</div>
+    <div class="tb-right">
+      <div class="tb-icon" onclick="toggleTheme()" id="themeIc">🌙</div>
+      <div class="tb-av"><img src="https://i.pravatar.cc/100?img=12" alt="you"></div>
+    </div>
+  </div>
+
+  <div class="page-header">
+    <div>
+      <div class="page-title">Family<br>Tree</div>
+      <div class="page-sub">Our roots, our branches 🌳</div>
+    </div>
+    <button class="btn-outline" onclick="toast('🌳 Add new member!')">+ Member</button>
+  </div>
+
+  <div class="tree-container">
+    <div class="tree-gen-label rv">Generation 1 — Grandparents</div>
+    <div class="tree-gen rv" id="gen1"></div>
+    <div class="tree-connector rv"></div>
+    <div class="tree-h-line rv"></div>
+    <div class="tree-gen-label rv">Generation 2 — Parents</div>
+    <div class="tree-gen rv" id="gen2"></div>
+    <div class="tree-connector rv"></div>
+    <div class="tree-h-line rv"></div>
+    <div class="tree-gen-label rv">Generation 3 — Children</div>
+    <div class="tree-gen rv" id="gen3"></div>
+  </div>
+
+</div>
+<div class="toasts" id="toasts"></div>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+function memberCard(m) {
+  return `<div class="tree-member" onclick="toast('👤 ${m.name} — ${m.role}')">
+    <div class="tree-av ${m.color}">${m.initials}</div>
+    <div class="tree-name">${m.name}</div>
+    <div class="tree-role">${m.role}</div>
+  </div>`;
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const g1 = TREE_MEMBERS.gen1;
+  document.getElementById('gen1').innerHTML =
+    memberCard(g1[0]) + memberCard(g1[1]) +
+    '<div class="heart-sep">❤️</div>' +
+    memberCard(g1[2]) + memberCard(g1[3]);
+  document.getElementById('gen2').innerHTML =
+    memberCard(TREE_MEMBERS.gen2[0]) +
+    '<div class="ring-sep">💍</div>' +
+    memberCard(TREE_MEMBERS.gen2[1]);
+  document.getElementById('gen3').innerHTML =
+    TREE_MEMBERS.gen3.map(memberCard).join('');
+  setupScrollReveal();
+});
+</script>
+</body>
+</html>

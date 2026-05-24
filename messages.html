@@ -1,0 +1,84 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Fam.ly — Message Wall</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+<style>
+.msg-grid{display:grid;grid-template-columns:1fr;gap:.9rem;padding:0 1.1rem}
+.msg-card{padding:1.2rem 1.3rem;cursor:pointer;position:relative;overflow:hidden}
+.msg-quote{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;font-weight:400;color:var(--tx);line-height:1.75;margin-bottom:.85rem}
+.msg-quote::before{content:'"';font-size:2.5rem;color:var(--gold);opacity:.3;position:absolute;top:.5rem;left:.8rem;font-family:'Cormorant Garamond',serif;line-height:1}
+.msg-from{display:flex;align-items:center;gap:.55rem}
+.msg-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;color:#080608;flex-shrink:0}
+.msg-name{font-size:.78rem;font-weight:600;color:var(--tx2)}
+.msg-date{font-size:.65rem;color:var(--tx3);margin-left:auto}
+.add-msg-form{margin:1rem 1.1rem;padding:1.2rem}
+.add-msg-form textarea{width:100%;background:var(--gl2);border:1.5px solid var(--br);border-radius:var(--r14);padding:.85rem 1rem;font-size:.88rem;color:var(--tx);resize:none;height:90px;transition:border-color .2s}
+.add-msg-form textarea:focus{outline:none;border-color:var(--br2)}
+.add-msg-form textarea::placeholder{color:var(--tx3)}
+</style>
+</head>
+<body>
+<div id="particles"></div>
+<div class="amb"></div>
+<div class="content page-in">
+
+  <div class="topbar">
+    <div class="tb-logo">Fam<em>.</em>ly</div>
+    <div class="tb-right">
+      <div class="tb-icon" onclick="toggleTheme()" id="themeIc">🌙</div>
+      <div class="tb-av"><img src="https://i.pravatar.cc/100?img=12" alt="you"></div>
+    </div>
+  </div>
+
+  <div class="page-header">
+    <div>
+      <div class="page-title">Message<br>Wall</div>
+      <div class="page-sub">Notes, wishes & love 💌</div>
+    </div>
+    <button class="btn-outline" onclick="document.getElementById('msgForm').scrollIntoView({behavior:'smooth'})">+ Write</button>
+  </div>
+
+  <div class="msg-grid" id="msgGrid"></div>
+
+  <div class="add-msg-form glass-card rv" id="msgForm" style="margin-top:1rem">
+    <div class="sec-title" style="margin-bottom:.9rem;padding:0">Write to your family 💌</div>
+    <textarea id="msgText" placeholder="Write something from your heart... your family will treasure it forever."></textarea>
+    <div style="display:flex;justify-content:flex-end;margin-top:.75rem">
+      <button class="btn-gold" onclick="postMessage()">Post Message</button>
+    </div>
+  </div>
+
+</div>
+<div class="toasts" id="toasts"></div>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+function renderMessages() {
+  const grid = document.getElementById('msgGrid');
+  grid.innerHTML = MESSAGES.map((m,i) => `
+    <div class="glass-card msg-card rv" style="animation-delay:${i*.08}s">
+      <div class="msg-quote">"${m.text}"</div>
+      <div class="msg-from">
+        <div class="msg-av ${m.color}">${m.initials}</div>
+        <div class="msg-name">${m.author}</div>
+        <div class="msg-date">${m.date}</div>
+      </div>
+    </div>`).join('');
+  setupScrollReveal();
+}
+function postMessage() {
+  const txt = document.getElementById('msgText').value.trim();
+  if (!txt) { toast('Please write something 💌'); return; }
+  MESSAGES.unshift({ text:txt, author:'You', color:'cl0', initials:'ME', date:'Just now' });
+  renderMessages();
+  document.getElementById('msgText').value = '';
+  toast('💌 Message posted to the wall!');
+}
+document.addEventListener('DOMContentLoaded', renderMessages);
+</script>
+</body>
+</html>

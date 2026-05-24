@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Fam.ly — Create Album</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+<style>
+.form-wrap {
+  padding: 0 1.1rem;
+  margin-top: 1rem;
+}
+.form-card {
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+.input {
+  width: 100%;
+  padding: .9rem 1.1rem;
+  margin-top: 14px;
+  border: 1.5px solid var(--br);
+  border-radius: var(--r14);
+  background: var(--gl2);
+  color: var(--tx);
+  outline: none;
+  font-size: .9rem;
+  font-family: inherit;
+  transition: border-color .2s;
+}
+.input:focus {
+  border-color: var(--br2);
+}
+textarea.input {
+  resize: none;
+  height: 100px;
+}
+.label {
+  margin-top: 24px;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--gold);
+}
+.icon-picker {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: .7rem;
+}
+.icon-option {
+  aspect-ratio: 1;
+  border-radius: var(--r14);
+  background: var(--gl);
+  border: 1px solid var(--br);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: all .25s var(--ease);
+}
+.icon-option:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+  box-shadow: var(--shg);
+}
+.icon-option.active {
+  border: 2px solid var(--gold);
+  background: var(--gd);
+  box-shadow: var(--shg);
+}
+.upload-box {
+  margin-top: 1.5rem;
+  border: 2px dashed var(--br2);
+  border-radius: var(--r20);
+  padding: 2.2rem 1.2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all .25s;
+  background: var(--gl);
+}
+.upload-box:hover, .upload-box.dragover {
+  border-color: var(--gold);
+  background: var(--gd);
+}
+.upload-icon {
+  font-size: 2.5rem;
+  margin-bottom: .5rem;
+}
+.upload-title {
+  font-size: .95rem;
+  font-weight: 600;
+}
+.upload-sub {
+  color: var(--tx3);
+  margin-top: 4px;
+  font-size: .75rem;
+}
+.preview-grid {
+  margin-top: 1.2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .7rem;
+}
+.preview-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: var(--r14);
+  overflow: hidden;
+  border: 1px solid var(--br);
+}
+.preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.preview-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: .7rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color .2s;
+}
+.preview-remove:hover {
+  background: var(--red);
+}
+.preview-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8rem;
+  pointer-events: none;
+}
+</style>
+</head>
+<body>
+<div id="particles"></div>
+<div class="amb"></div>
+<div class="content page-in">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="tb-logo" onclick="window.location.href='gallery.html'" style="cursor:pointer">Fam<em>.</em>ly</div>
+    <div class="tb-right">
+      <div class="tb-icon" onclick="history.back()">←</div>
+      <div class="tb-icon" onclick="toggleTheme()" id="themeIc">🌙</div>
+      <div class="tb-av"><img src="https://i.pravatar.cc/100?img=12" alt="you"></div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div>
+      <div class="page-title">Create Album</div>
+      <div class="page-sub">Store your precious family memories ✨</div>
+    </div>
+  </div>
+
+  <!-- FORM CARD -->
+  <div class="form-wrap">
+    <div class="glass-card form-card rv">
+      <input type="text" class="input" id="albumName" placeholder="Album Name" autocomplete="off">
+      <textarea class="input" id="albumDesc" placeholder="Write something about this album..."></textarea>
+
+      <!-- STYLE PICKER -->
+      <div class="label">Choose Album Style</div>
+      <div class="icon-picker">
+        <div class="icon-option active" onclick="selectIcon(this)">🖼️</div>
+        <div class="icon-option" onclick="selectIcon(this)">🎂</div>
+        <div class="icon-option" onclick="selectIcon(this)">🏠</div>
+        <div class="icon-option" onclick="selectIcon(this)">📷</div>
+        <div class="icon-option" onclick="selectIcon(this)">🎉</div>
+        <div class="icon-option" onclick="selectIcon(this)">❤️</div>
+        <div class="icon-option" onclick="selectIcon(this)">👨‍👩‍👧</div>
+        <div class="icon-option" onclick="selectIcon(this)">🎄</div>
+        <div class="icon-option" onclick="selectIcon(this)">🚗</div>
+        <div class="icon-option" onclick="selectIcon(this)">🏔️</div>
+      </div>
+
+      <!-- FILE INPUT -->
+      <input type="file" id="fileInput" accept="image/*,video/*" multiple hidden>
+
+      <!-- UPLOAD BOX -->
+      <div class="upload-box" id="uploadBox">
+        <div class="upload-icon">📸</div>
+        <div class="upload-title">Click or Drag Family Photos & Videos</div>
+        <div class="upload-sub">Images and Videos Supported</div>
+      </div>
+
+      <!-- PREVIEW -->
+      <div class="preview-grid" id="previewGrid"></div>
+
+      <!-- BUTTON -->
+      <button class="btn-gold" style="width:100%; margin-top:2rem; justify-content:center;" onclick="createAlbum()">
+        Create Album ✨
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+let uploadedImages = [];
+let isEditMode = false;
+const urlParams = new URLSearchParams(window.location.search);
+const editId = urlParams.get('edit');
+
+function selectIcon(el) {
+  document.querySelectorAll('.icon-option').forEach(icon => {
+    icon.classList.remove('active');
+  });
+  el.classList.add('active');
+}
+
+const uploadBox = document.getElementById('uploadBox');
+const fileInput = document.getElementById('fileInput');
+const previewGrid = document.getElementById('previewGrid');
+
+uploadBox.addEventListener('click', () => fileInput.click());
+
+fileInput.addEventListener('change', (e) => {
+  handleFiles(e.target.files);
+  fileInput.value = '';
+});
+
+// Drag and drop events
+['dragenter', 'dragover'].forEach(eventName => {
+  uploadBox.addEventListener(eventName, (e) => {
+    e.preventDefault();
+    uploadBox.classList.add('dragover');
+  }, false);
+});
+
+['dragleave', 'drop'].forEach(eventName => {
+  uploadBox.addEventListener(eventName, (e) => {
+    e.preventDefault();
+    uploadBox.classList.remove('dragover');
+  }, false);
+});
+
+uploadBox.addEventListener('drop', (e) => {
+  const dt = e.dataTransfer;
+  const files = dt.files;
+  handleFiles(files);
+}, false);
+
+function handleFiles(files) {
+  Array.from(files).forEach(file => {
+    if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) return;
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      uploadedImages.push(event.target.result);
+      renderPreviews();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderPreviews() {
+  previewGrid.innerHTML = '';
+  uploadedImages.forEach((src, idx) => {
+    const item = document.createElement('div');
+    item.className = 'preview-item';
+    
+    const isVideo = src.startsWith('data:video/');
+    if (isVideo) {
+      item.innerHTML = `
+        <video src="${src}" muted playsinline loop style="width:100%; height:100%; object-fit:cover;"></video>
+        <div class="preview-play-icon">▶</div>
+        <div class="preview-remove" onclick="removeImage(${idx})">✕</div>
+      `;
+    } else {
+      item.innerHTML = `
+        <img src="${src}" alt="preview">
+        <div class="preview-remove" onclick="removeImage(${idx})">✕</div>
+      `;
+    }
+    previewGrid.appendChild(item);
+  });
+}
+
+function removeImage(idx) {
+  uploadedImages.splice(idx, 1);
+  renderPreviews();
+}
+
+function initEditMode() {
+  isEditMode = true;
+  document.querySelector('.page-title').innerText = 'Edit Album';
+  document.querySelector('.page-sub').innerText = 'Update your album details and media ✨';
+  document.querySelector('.btn-gold').innerText = 'Save Changes ✨';
+  
+  let album = null;
+  const customAlbums = JSON.parse(localStorage.getItem('familyAlbums')) || [];
+  album = customAlbums.find(a => String(a.id) === String(editId));
+  
+  if (!album) {
+    const defaultAlbumsWithId = ALBUMS.map((a, idx) => ({
+      id: `default_${idx}`,
+      ...a
+    }));
+    album = defaultAlbumsWithId.find(a => String(a.id) === String(editId));
+  }
+  
+  if (album) {
+    document.getElementById('albumName').value = album.name;
+    document.getElementById('albumDesc').value = album.desc || '';
+    
+    document.querySelectorAll('.icon-option').forEach(icon => {
+      if (icon.innerText === album.emoji) {
+        icon.classList.add('active');
+      } else {
+        icon.classList.remove('active');
+      }
+    });
+    
+    uploadedImages = [...(album.images || [])];
+    renderPreviews();
+  } else {
+    toast('⚠️ Album not found');
+  }
+}
+
+function createAlbum() {
+  const albumName = document.getElementById('albumName').value.trim();
+  const albumDesc = document.getElementById('albumDesc').value.trim();
+  const selectedIcon = document.querySelector('.icon-option.active').innerText;
+
+  if (albumName === '') {
+    toast('⚠️ Please enter an album name');
+    return;
+  }
+
+  let albums = JSON.parse(localStorage.getItem('familyAlbums')) || [];
+
+  if (isEditMode) {
+    const existingIndex = albums.findIndex(a => String(a.id) === String(editId));
+    
+    const updatedAlbum = {
+      id: editId.startsWith('default_') ? editId : Number(editId),
+      name: albumName,
+      desc: albumDesc || 'A collection of family memories',
+      emoji: selectedIcon,
+      images: uploadedImages,
+      count: uploadedImages.length
+    };
+    
+    if (existingIndex > -1) {
+      albums[existingIndex] = updatedAlbum;
+    } else {
+      // It's a default album edited for the first time
+      albums.push(updatedAlbum);
+    }
+    
+    localStorage.setItem('familyAlbums', JSON.stringify(albums));
+    toast('📸 Album Updated ✨');
+  } else {
+    const album = {
+      id: Date.now(),
+      name: albumName,
+      desc: albumDesc || 'A collection of family memories',
+      emoji: selectedIcon,
+      images: uploadedImages,
+      count: uploadedImages.length
+    };
+    
+    albums.push(album);
+    localStorage.setItem('familyAlbums', JSON.stringify(albums));
+    toast('📸 Album Created ✨');
+  }
+
+  setTimeout(() => {
+    window.location.href = 'gallery.html';
+  }, 1000);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setupScrollReveal();
+  if (editId) {
+    initEditMode();
+  }
+});
+</script>
+</body>
+</html>

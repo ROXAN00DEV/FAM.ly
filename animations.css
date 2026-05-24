@@ -1,0 +1,101 @@
+ /* ═══════════════════════════════════════════
+   FAM.LY — animations.css
+   All keyframe animations and motion
+   ═══════════════════════════════════════════ */
+
+/* ── CARD STAGGER ── */
+.feed-card { animation: cardIn .5s ease both; }
+.feed-card:nth-child(1) { animation-delay: .08s; }
+.feed-card:nth-child(2) { animation-delay: .16s; }
+.feed-card:nth-child(3) { animation-delay: .24s; }
+.feed-card:nth-child(4) { animation-delay: .32s; }
+.feed-card:nth-child(5) { animation-delay: .40s; }
+
+/* ── VINYL SPIN ── */
+@keyframes vinylSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.spin { animation: vinylSpin 4s linear infinite; }
+
+/* ── SHIMMER ── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, var(--gl) 25%, var(--gl2) 50%, var(--gl) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ── SKELETON LOADER ── */
+.skeleton {
+  border-radius: var(--r8);
+  animation: shimmer 1.5s infinite;
+  background: linear-gradient(90deg, var(--gl) 25%, var(--gl2) 50%, var(--gl) 75%);
+  background-size: 200% 100%;
+}
+
+/* ── BOUNCE ── */
+@keyframes bounce {
+  0%,100% { transform: scale(1); }
+  30%      { transform: scale(1.4); }
+  60%      { transform: scale(.88); }
+}
+.bounce { animation: bounce .4s ease; }
+
+/* ── SHAKE ── */
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%,60% { transform: translateX(-8px); }
+  40%,80% { transform: translateX(8px); }
+}
+.shake { animation: shake .4s ease; }
+
+/* ── FADE IN ── */
+@keyframes fadeIn  { from{opacity:0}         to{opacity:1} }
+@keyframes fadeUp  { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+@keyframes fadeDown{ from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:none} }
+@keyframes fadeLeft{ from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:none} }
+
+/* ── PULSE GLOW ── */
+@keyframes pulseGlow {
+  0%,100% { box-shadow: 0 0 20px rgba(201,168,76,.2); }
+  50%      { box-shadow: 0 0 40px rgba(201,168,76,.5); }
+}
+.pulse-gold { animation: pulseGlow 2.5s ease-in-out infinite; }
+
+/* ── FLOAT ── */
+@keyframes floatY {
+  0%,100% { transform: translateY(0px); }
+  50%      { transform: translateY(-8px); }
+}
+.float { animation: floatY 3s ease-in-out infinite; }
+
+/* ── WAVE BARS (voice notes) ── */
+@keyframes waveBar {
+  0%,100% { height: 4px; }
+  50%      { height: var(--wh, 20px); }
+}
+.wb {
+  width:3px; border-radius:2px; background:var(--gold);
+  animation: waveBar 1s ease-in-out infinite alternate;
+  display:inline-block;
+}
+.wb:nth-child(1) { --wh:14px; animation-delay:0s; }
+.wb:nth-child(2) { --wh:22px; animation-delay:.15s; }
+.wb:nth-child(3) { --wh:10px; animation-delay:.3s; }
+.wb:nth-child(4) { --wh:20px; animation-delay:.45s; }
+.wb:nth-child(5) { --wh:16px; animation-delay:.6s; }
+
+/* ── SCROLL REVEAL ── */
+.rv {
+  opacity:0; transform:translateY(16px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.rv.vis { opacity:1; transform:none; }
+
+/* ── PAGE TRANSITION ── */
+@keyframes pageIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+.page-in { animation: pageIn .4s ease both; }

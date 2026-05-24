@@ -1,0 +1,40 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Fam.ly — Time Capsule</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<div id="particles"></div>
+<div class="amb"></div>
+<div class="content page-in">
+  <div class="topbar">
+    <div class="tb-logo">Fam<em>.</em>ly</div>
+    <div class="tb-right">
+      <div class="tb-icon" onclick="toggleTheme()" id="themeIc">🌙</div>
+      <div class="tb-av"><img src="https://i.pravatar.cc/100?img=12" alt="you"></div>
+    </div>
+  </div>
+  <div class="page-header rv">
+    <div>
+      <div class="page-title">Time Capsule</div>
+      <div class="page-sub">Messages for the future</div>
+    </div>
+    <button class="btn-outline" onclick="toast('+ Adding...')">+ Add</button>
+  </div>
+  <div class="glass-card coming-soon rv" style="margin:1rem 1.1rem">
+    <div class="cs-icon">⏳</div>
+    <div class="cs-title">Time Capsule</div>
+    <div class="cs-text">This page is connected and ready! Ask Claude to build the content for this page and paste it here. All CSS and JS are already linked.</div>
+    <button class="btn-gold" onclick="toast('🚀 Ready to build!')">Ready to Build</button>
+  </div>
+</div>
+<div class="toasts" id="toasts"></div>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>document.addEventListener('DOMContentLoaded', setupScrollReveal);</script>
+</body>
+</html>

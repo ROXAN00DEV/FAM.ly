@@ -1,0 +1,125 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Fam.ly — Home</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<div id="particles"></div>
+<div class="amb"></div>
+<div class="content page-in">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="tb-logo">Fam<em>.</em>ly</div>
+    <div class="tb-right">
+      <div class="tb-icon" onclick="toggleTheme()" id="themeIc">🌙</div>
+      <div class="tb-av"><img src="https://i.pravatar.cc/100?img=12" alt="you"></div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-tag">✦ Private · Family · Sacred</div>
+    <h1 class="hero-title">Every memory<br>deserves <em>a home.</em></h1>
+    <p class="hero-sub">Your private family universe — share moments, relive memories, keep every story alive forever.</p>
+    <button class="hero-btn" onclick="toast('✨ Opening memory creator...')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add a Memory
+    </button>
+  </section>
+
+  <!-- SLIDER -->
+  <div class="slider-wrap rv">
+    <div class="slider-head">
+      <div class="slider-title">📅 This Week's Moments</div>
+      <div class="slider-dots" id="sliderDots"></div>
+    </div>
+    <div class="slider" id="slider"></div>
+  </div>
+
+  <!-- SECTION HEADER -->
+  <div class="sec-head rv">
+    <div>
+      <div class="sec-title">Family Feed</div>
+      <div class="sec-sub">Latest from everyone 💛</div>
+    </div>
+    <button class="btn-outline" onclick="toast('✨ New memory!')">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      New
+    </button>
+  </div>
+
+  <!-- FEED CARDS -->
+  <div style="padding:0 1.1rem" id="feedContainer"></div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lbx" id="lbx" onclick="closeLbx()">
+  <div class="lbx-close">✕</div>
+  <img id="lbxImg" src="" alt="memory">
+</div>
+<div class="toasts" id="toasts"></div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+// Build slider
+document.addEventListener('DOMContentLoaded', () => {
+  initSlider(SLIDER_ITEMS);
+
+  // Build feed cards
+  const feed = document.getElementById('feedContainer');
+  feed.innerHTML = POSTS.map((p, i) => `
+    <div class="glass-card feed-card rv" style="animation-delay:${i * .1}s">
+      <div class="fc-head">
+        ${p.authorImg
+          ? `<div class="fc-av"><img src="${p.authorImg}" alt="${p.authorName}"></div>`
+          : `<div class="fc-av-init ${p.authorColor}">${p.authorInitials}</div>`}
+        <div>
+          <div class="fc-name">${p.authorName}</div>
+          <div class="fc-time">${p.time}</div>
+        </div>
+        <span class="tag tag-${p.tag}" style="margin-left:auto">${p.tagLabel}</span>
+      </div>
+      <div class="fc-body">
+        <div class="fc-text">${p.text}</div>
+      </div>
+      <div class="fc-img" onclick="openLbx('${p.photoFull}')">
+        <img src="${p.photo}" alt="memory" loading="lazy">
+        <div class="fc-img-ov"></div>
+      </div>
+      <div class="fc-foot">
+        <button class="fc-btn ht ${p.liked ? 'on' : ''}" id="like${p.id}" onclick="toggleReact('like${p.id}','ht')">
+          ❤️ <span class="react-count">${p.likes}</span>
+        </button>
+        <button class="fc-btn rc" id="rc${p.id}" onclick="toggleReact('rc${p.id}','rc')">😊 React</button>
+        <button class="fc-cmt-btn" onclick="toggleComments('cmt${p.id}')">💬 ${p.comments.length}</button>
+      </div>
+      <div class="cbox" id="cmt${p.id}">
+        ${p.comments.map(c => `
+          <div class="c-item">
+            <div class="c-mini-av ${c.color}">${c.initials}</div>
+            <div class="c-bub">
+              <div class="c-bub-name">${c.name}</div>
+              <div class="c-bub-text">${c.text}</div>
+            </div>
+          </div>`).join('')}
+        <div class="c-inp-row">
+          <input class="c-inp" placeholder="Write something warm… 💛"
+            onkeydown="if(event.key==='Enter')addComment('cmt${p.id}',this)">
+          <button class="c-send" onclick="addComment('cmt${p.id}',this.previousElementSibling)">➤</button>
+        </div>
+      </div>
+    </div>`).join('');
+
+  setupScrollReveal();
+});
+</script>
+</body>
+</html>
