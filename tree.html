@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Fam.ly — Family Tree</title>
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="animations.css">
 <style>
 .tree-container{padding:1rem 1.1rem;text-align:center;overflow-x:auto}
 .tree-gen-label{font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin:1.5rem 0 .75rem}
@@ -57,8 +57,8 @@
 
 </div>
 <div class="toasts" id="toasts"></div>
-<script src="js/data.js"></script>
-<script src="js/app.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
 <script>
 function memberCard(m) {
   return `<div class="tree-member" onclick="toast('👤 ${m.name} — ${m.role}')">
